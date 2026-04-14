@@ -391,7 +391,7 @@
         <jmockit-version>1.49</jmockit-version>
         <wiremock-version>2.35.2</wiremock-version>
         <surefire-version>3.2.5</surefire-version>
-        <commons-lang-version>3.18.0</commons-lang-version>
+        <commons-lang-version>3.20.0</commons-lang-version>
         <jackson-version>3.1.0</jackson-version>
         <jackson-annotations-version>2.20</jackson-annotations-version>
         <jackson-databind-version>3.1.0</jackson-databind-version>
