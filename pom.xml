@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.swagger.parser.v3</groupId>
     <artifactId>swagger-parser-project</artifactId>
-    <version>2.1.41-SNAPSHOT</version>
+    <version>2.1.41-jackson3</version>
     <packaging>pom</packaging>
     <name>swagger-parser-project</name>
     <description>swagger-parser-project</description>
@@ -31,6 +31,22 @@
         <developerConnection>scm:git:git@github.com:swagger-api/swagger-parser.git</developerConnection>
         <url>https://github.com/swagger-api/swagger-parser</url>
     </scm>
+    <repositories>
+        <repository>
+            <id>squadsec-ru-default</id>
+            <url>https://repo.cloud.squadsec.ru/artifactory/ru-default/</url>
+        </repository>
+    </repositories>
+    <distributionManagement>
+        <repository>
+            <id>squadsec-ru-default</id>
+            <url>https://repo.cloud.squadsec.ru/artifactory/ru-default/</url>
+        </repository>
+        <snapshotRepository>
+            <id>squadsec-ru-default</id>
+            <url>https://repo.cloud.squadsec.ru/artifactory/ru-default/</url>
+        </snapshotRepository>
+    </distributionManagement>
     <build>
         <defaultGoal>install</defaultGoal>
         <resources>
@@ -206,16 +222,9 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.sonatype.central</groupId>
-                <artifactId>central-publishing-maven-plugin</artifactId>
-                <version>0.7.0</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <publishingServerId>central</publishingServerId>
-                    <autoPublish>true</autoPublish>
-                    <waitUntil>published</waitUntil>
-                    <waitMaxTime>3600</waitMaxTime>
-                </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.1.2</version>
             </plugin>
         </plugins>
         <pluginManagement>
@@ -310,7 +319,7 @@
                 <version>${snakeyaml-version}</version>
             </dependency>
             <dependency>
-                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <groupId>tools.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-yaml</artifactId>
                 <version>${jackson-version}</version>
             </dependency>
@@ -320,12 +329,12 @@
                 <version>${jackson-annotations-version}</version>
             </dependency>
             <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
+                <groupId>tools.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
                 <version>${jackson-databind-version}</version>
             </dependency>
             <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
+                <groupId>tools.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
                 <version>${jackson-version}</version>
             </dependency>
@@ -375,7 +384,7 @@
         <swagger-parser-v2-version>1.0.76</swagger-parser-v2-version>
         <commons-io-version>2.20.0</commons-io-version>
         <slf4j-version>2.0.9</slf4j-version>
-        <swagger-core-version>2.2.48</swagger-core-version>
+        <swagger-core-version>2.2.42-SNAPSHOT</swagger-core-version>
         <swagger-core-v2-version>1.6.16</swagger-core-v2-version>
         <junit-version>4.13.2</junit-version>
         <testng-version>7.11.0</testng-version>
@@ -383,9 +392,9 @@
         <wiremock-version>2.35.2</wiremock-version>
         <surefire-version>3.2.5</surefire-version>
         <commons-lang-version>3.18.0</commons-lang-version>
-        <jackson-version>2.21.1</jackson-version>
-        <jackson-annotations-version>2.21</jackson-annotations-version>
-        <jackson-databind-version>2.21.1</jackson-databind-version>
+        <jackson-version>3.1.0</jackson-version>
+        <jackson-annotations-version>2.20</jackson-annotations-version>
+        <jackson-databind-version>3.1.0</jackson-databind-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 </project>

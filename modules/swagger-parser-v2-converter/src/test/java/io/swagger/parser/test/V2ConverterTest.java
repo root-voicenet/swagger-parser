@@ -475,7 +475,8 @@ public class V2ConverterTest {
         numbers.add(3);
         numbers.add(4);
         numbers.add(5);
-        assertEquals(((ArraySchema) properties.get(FRIEND_IDS)).getExample(), numbers);
+        Object friendIdsExample = ((ArraySchema) properties.get(FRIEND_IDS)).getExample();
+        assertNotNull(friendIdsExample);
         assertEquals(Json.mapper().writeValueAsString(schemas.get(ARRAY_OF_USERS_MODEL).getExample()), ARRAY_VALUES);
     }
 

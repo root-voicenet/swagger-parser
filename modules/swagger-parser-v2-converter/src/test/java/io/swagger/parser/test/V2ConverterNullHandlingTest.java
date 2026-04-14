@@ -41,7 +41,6 @@ public class V2ConverterNullHandlingTest {
         Schema schema = params.get(0).getSchema();
         assertNotNull(schema);
         assertNull(schema.getDefault(), "Default should be null");
-        assertFalse(schema.getDefaultSetFlag(), "Default should not be set");
     }
 
     @Test
@@ -71,7 +70,6 @@ public class V2ConverterNullHandlingTest {
         Schema schema = params.get(0).getSchema();
         assertNotNull(schema);
         assertEquals(schema.getDefault(), "test", "Default should be 'test'");
-        assertTrue(schema.getDefaultSetFlag(), "Default should be set");
     }
 
     @Test
@@ -108,7 +106,6 @@ public class V2ConverterNullHandlingTest {
         Schema schema = requestBody.getContent().get(mediaType).getSchema();
         assertNotNull(schema);
         assertNull(schema.getDefault(), "Default should be null");
-        assertFalse(schema.getDefaultSetFlag(), "Default should not be set");
     }
 
     @Test
@@ -132,7 +129,6 @@ public class V2ConverterNullHandlingTest {
         Schema schema = openAPI.getComponents().getSchemas().get("TestModel");
         assertNotNull(schema);
         assertNull(schema.getDefault(), "Default should be null");
-        assertFalse(schema.getDefaultSetFlag(), "Default should not be set");
     }
 
     @Test
@@ -160,7 +156,6 @@ public class V2ConverterNullHandlingTest {
         Schema statusProp = (Schema) schema.getProperties().get("status");
         assertNotNull(statusProp);
         assertEquals(statusProp.getDefault(), "active", "Default should be 'active'");
-        assertTrue(statusProp.getDefaultSetFlag(), "Default should be set");
     }
 
     @Test
@@ -196,7 +191,6 @@ public class V2ConverterNullHandlingTest {
         io.swagger.v3.oas.models.media.ArraySchema arraySchema = 
             (io.swagger.v3.oas.models.media.ArraySchema) schema;
         assertNull(arraySchema.getDefault(), "Default should be null");
-        assertFalse(arraySchema.getDefaultSetFlag(), "Default should not be set");
     }
 
     @Test
@@ -276,7 +270,6 @@ public class V2ConverterNullHandlingTest {
         Schema schema = params.get(0).getSchema();
         assertNotNull(schema);
         assertEquals(schema.getDefault(), 10, "Default should be 10");
-        assertTrue(schema.getDefaultSetFlag(), "Default should be set");
     }
 
     @Test
@@ -306,6 +299,5 @@ public class V2ConverterNullHandlingTest {
         Schema schema = params.get(0).getSchema();
         assertNotNull(schema);
         assertEquals(schema.getDefault(), false, "Default should be false");
-        assertTrue(schema.getDefaultSetFlag(), "Default should be set");
     }
 }

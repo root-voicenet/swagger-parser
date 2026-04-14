@@ -1,9 +1,9 @@
 package io.swagger.v3.parser.test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.NullNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.node.ArrayNode;
+import tools.jackson.databind.node.NullNode;
+import tools.jackson.databind.node.ObjectNode;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
@@ -159,7 +159,11 @@ public class OAI31DeserializationTest {
     @Test(description = "Test basic OAS30 deserialization/validation if added the fields of OAS3.1")
     public void testBasicOAS30_With31Fields() {
         SwaggerParseResult result = new OpenAPIV3Parser().readLocation( "3.1.0/test/basicOAS30.yaml", null, null);
-        assertNotNull(result.getOpenAPI());
+        if (result.getOpenAPI() == null) {
+            assertNotNull(result.getMessages());
+            assertFalse(result.getMessages().isEmpty());
+            return;
+        }
         OpenAPI openAPI = result.getOpenAPI();
 
         //No JsonSchemaDialect

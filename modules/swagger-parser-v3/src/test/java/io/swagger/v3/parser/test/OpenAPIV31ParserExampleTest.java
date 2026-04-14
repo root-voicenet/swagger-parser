@@ -196,6 +196,8 @@ public class OpenAPIV31ParserExampleTest {
         p.setResolve(true);
         String uri = "http://localhost:" + this.serverPort + "/examples/root.json";
         SwaggerParseResult swaggerParseResult = new OpenAPIV3Parser().readLocation(uri, null, p);
-        org.testng.Assert.assertEquals(Yaml31.pretty(swaggerParseResult.getOpenAPI()), FileUtils.readFileToString(new File("src/test/resources/3.1.0/dereference/examples/dereferenced.yaml")));
+        org.testng.Assert.assertEquals(
+                Yaml31.pretty(swaggerParseResult.getOpenAPI()).replace("\r\n", "\n"),
+                FileUtils.readFileToString(new File("src/test/resources/3.1.0/dereference/examples/dereferenced.yaml")).replace("\r\n", "\n"));
     }
 }

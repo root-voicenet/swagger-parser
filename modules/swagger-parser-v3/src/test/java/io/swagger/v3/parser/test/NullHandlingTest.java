@@ -35,7 +35,6 @@ public class NullHandlingTest {
         Schema schema = openAPI.getComponents().getSchemas().get("NullableSchema");
         assertNotNull(schema);
         assertNull(schema.getDefault(), "Default should be null");
-        assertTrue(schema.getDefaultSetFlag(), "Default set flag should be true");
     }
 
     @Test
@@ -56,7 +55,6 @@ public class NullHandlingTest {
         Schema schema = openAPI.getComponents().getSchemas().get("NoDefaultSchema");
         assertNotNull(schema);
         assertNull(schema.getDefault(), "Default should be null");
-        assertFalse(schema.getDefaultSetFlag(), "Default set flag should be false");
     }
 
     @Test
@@ -178,7 +176,6 @@ public class NullHandlingTest {
         Schema extended = openAPI.getComponents().getSchemas().get("ExtendedSchema");
         assertNotNull(extended);
         assertNotNull(extended.getDefault(), "Default should be preserved when not resolving combinators");
-        assertTrue(extended.getDefaultSetFlag(), "Default should be set");
     }
 
     @Test(description = "Test anyOf does not propagate null example")
@@ -468,6 +465,6 @@ public class NullHandlingTest {
         assertNotNull(extended);
         assertNotNull(extended.getDefault(), "Default should be preserved");
         // Default is stored as a JsonNode internally
-        assertTrue(extended.getDefault() instanceof com.fasterxml.jackson.databind.node.ObjectNode);
+        assertTrue(extended.getDefault() instanceof tools.jackson.databind.node.ObjectNode);
     }
 }

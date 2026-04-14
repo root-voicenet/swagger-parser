@@ -1,8 +1,8 @@
 package io.swagger.v3.parser.test;
 
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.node.ObjectNode;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.core.util.Yaml;
 import io.swagger.v3.oas.models.*;
@@ -2925,7 +2925,9 @@ public class OpenAPIV3ParserTest {
         final SwaggerParseResult result = parser.readLocation(location, null, options);
         List<String> messages = result.getMessages();
         assertEquals(messages.size(), 1);
-        assertEquals(messages.get(0), "Duplicate field '200' in `src/test/resources/duplicateHttpStatusCodes.json`");
+        assertTrue(
+                messages.get(0).equals("Duplicate field '200' in `src/test/resources/duplicateHttpStatusCodes.json`")
+                        || messages.get(0).equals("Duplicate Object property \"200\""));
 
     }
 
@@ -3059,7 +3061,7 @@ public class OpenAPIV3ParserTest {
         options.setResolveCombinators(true);
         OpenAPI openAPI = new OpenAPIV3Parser().readContents(yamlString, null, options).getOpenAPI();
         Assert.assertNotNull(openAPI);
-        assertEquals(Yaml.pretty(openAPI), yamlStringResolved);
+        assertEquals(Yaml.pretty(openAPI).replace("\r\n", "\n"), yamlStringResolved.replace("\r\n", "\n"));
     }
 
     @Test(description = "option true, adds Original Location to messages when ref is relative/local")
@@ -3152,7 +3154,7 @@ public class OpenAPIV3ParserTest {
         options.setResolveCombinators(false);
         OpenAPI openAPI = new OpenAPIV3Parser().readContents(yamlString, null, options).getOpenAPI();
         Assert.assertNotNull(openAPI);
-        assertEquals(Yaml.pretty(openAPI), yamlStringResolved);
+        assertEquals(Yaml.pretty(openAPI).replace("\r\n", "\n"), yamlStringResolved.replace("\r\n", "\n"));
     }
 
     @Test

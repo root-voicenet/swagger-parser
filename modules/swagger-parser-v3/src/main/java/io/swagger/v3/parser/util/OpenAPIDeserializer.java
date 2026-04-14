@@ -1,12 +1,12 @@
 package io.swagger.v3.parser.util;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.JsonNodeType;
-import com.fasterxml.jackson.databind.node.NullNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.databind.node.TextNode;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.node.ArrayNode;
+import tools.jackson.databind.node.JsonNodeType;
+import tools.jackson.databind.node.NullNode;
+import tools.jackson.databind.node.ObjectNode;
+import tools.jackson.databind.node.StringNode;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -1194,7 +1194,7 @@ public class OpenAPIDeserializer {
 			return keys;
 		}
 
-		Iterator<String> it = node.fieldNames();
+		Iterator<String> it = node.propertyNames().iterator();
 		while (it.hasNext()) {
 			keys.add(it.next());
 		}
@@ -2874,7 +2874,7 @@ public class OpenAPIDeserializer {
 						result.invalidType(location, String.format("enum=`%s`", e.getMessage()),
 								schema.getFormat(), n);
 					}
-				} else if (n.isContainerNode()) {
+				} else if (n.isContainer()) {
 					schema.addEnumItemObject(n.isNull() ? null : n);
 				} else {
 					result.invalidType(location, "enum", "value", n);
@@ -3085,7 +3085,7 @@ public class OpenAPIDeserializer {
             List<String> requiredList = new ArrayList<>();
             for (JsonNode n : required) {
                 if (n.getNodeType().equals(JsonNodeType.STRING)) {
-                    requiredList.add(((TextNode) n).textValue());
+                    requiredList.add(((StringNode) n).textValue());
                 } else {
                     result.invalidType(location, "required", "string", n);
                 }
@@ -3288,7 +3288,7 @@ public class OpenAPIDeserializer {
 			if (!validNodeTypes.contains(exampleValue.getNodeType())) {
 				result.invalidType(location, exampleName, "object", exampleValue);
 			} else if (exampleValue.getNodeType().equals(JsonNodeType.STRING)) {
-                TextNode stringExample = (TextNode) exampleValue;
+                StringNode stringExample = (StringNode) exampleValue;
                 if (stringExample != null) {
                     Example exampleObj = getTextExample(stringExample);
                     if (exampleObj != null) {
@@ -3309,10 +3309,10 @@ public class OpenAPIDeserializer {
 		return examples;
 	}
 
-    private Example getTextExample(TextNode textNode) {
-        if (textNode == null) return null;
+    private Example getTextExample(StringNode StringNode) {
+        if (StringNode == null) return null;
         Example example = new Example();
-        example.setValue(textNode.textValue());
+        example.setValue(StringNode.textValue());
         return example;
     }
 
@@ -3661,11 +3661,10 @@ public class OpenAPIDeserializer {
 							JsonNode value = node.get(key);
 							if (key != null && JsonNodeType.ARRAY.equals(value.getNodeType())) {
 								ArrayNode arrayNode = (ArrayNode) value;
-								List<String> scopes = Stream
-										.generate(arrayNode.elements()::next)
-										.map((n) -> n.asText())
-										.limit(arrayNode.size())
-										.collect(Collectors.toList());
+                                List<String> scopes = arrayNode
+                                        .valueStream()
+                                        .map(JsonNode::asText)
+                                        .collect(Collectors.toList());
 								securityRequirement.addList(key, scopes);
 							}
 						}
@@ -4043,7 +4042,7 @@ public class OpenAPIDeserializer {
 						result.invalidType(location, String.format("enum=`%s`", e.getMessage()),
 								schema.getFormat(), n);
 					}
-				} else if (n.isContainerNode()) {
+				} else if (n.isContainer()) {
 					schema.addEnumItemObject(n.isNull() ? null : n);
 				} else {
 					result.invalidType(location, "enum", "value", n);

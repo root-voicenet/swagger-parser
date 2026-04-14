@@ -51,7 +51,7 @@ public class PermittedUrlsChecker {
 
         String hostname;
         try {
-            hostname = NetUtils.getHostFromUrl(url);
+            hostname = getHostFromUrl(url);
         } catch (MalformedURLException e) {
             throw new HostDeniedException(String.format("Failed to get hostname from URL. URL [%s]", url), e);
         }
@@ -66,7 +66,7 @@ public class PermittedUrlsChecker {
 
         InetAddress ip;
         try {
-            ip = NetUtils.getHostByName(hostname);
+            ip = getHostByName(hostname);
         } catch (UnknownHostException e) {
             throw new HostDeniedException(
                     String.format("Failed to resolve IP from hostname. Hostname [%s]", hostname), e);
@@ -74,7 +74,7 @@ public class PermittedUrlsChecker {
 
         String urlWithIp;
         try {
-            urlWithIp = NetUtils.setHost(url, ip.getHostAddress());
+            urlWithIp = setHost(url, ip.getHostAddress());
         } catch (MalformedURLException e) {
             throw new HostDeniedException(
                     String.format("Failed to create new URL with IP. IP [%s] URL [%s]", ip.getHostAddress(), url), e);
@@ -100,7 +100,27 @@ public class PermittedUrlsChecker {
                 || ip.isSiteLocalAddress()
                 || ip.isLoopbackAddress()
                 || ip.isAnyLocalAddress()
-                || NetUtils.isUniqueLocalAddress(ip)
-                || NetUtils.isNAT64Address(ip);
+                || isUniqueLocalAddress(ip)
+                || isNAT64Address(ip);
+    }
+
+    protected String getHostFromUrl(String url) throws MalformedURLException {
+        return NetUtils.getHostFromUrl(url);
+    }
+
+    protected InetAddress getHostByName(String hostname) throws UnknownHostException {
+        return NetUtils.getHostByName(hostname);
+    }
+
+    protected String setHost(String url, String host) throws MalformedURLException {
+        return NetUtils.setHost(url, host);
+    }
+
+    protected boolean isUniqueLocalAddress(InetAddress ip) {
+        return NetUtils.isUniqueLocalAddress(ip);
+    }
+
+    protected boolean isNAT64Address(InetAddress ip) {
+        return NetUtils.isNAT64Address(ip);
     }
 }
